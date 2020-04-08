@@ -20,4 +20,14 @@
 */
 #define LIMIT_OF_AMOUNT 31999
 #define DENOMINATIONS {2000, 500, 100, 50, 20, 10, 5, 1};
-unsigned int get_money(unsigned short int);
+
+typedef unsigned int cash;
+typedef unsigned int *cash_ptr;
+typedef unsigned short int short_cash;
+
+int get_unit(cash_ptr, int);
+void get_denominations(cash, int *);
+cash get_money(short_cash);
+
+void print_note(int, short_cash, int);
+void print_notes(int);

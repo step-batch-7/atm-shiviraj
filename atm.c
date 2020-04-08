@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include "atm.h"
 
-int get_unit(int *amount, int note)
+int get_unit(cash_ptr amount, int note)
 {
   int unit = *amount / note;
   if (unit > 15)
@@ -11,7 +12,7 @@ int get_unit(int *amount, int note)
   return unit;
 }
 
-void get_denominations(int amount, int *notes)
+void get_denominations(cash amount, int *notes)
 {
   int denominations[] = DENOMINATIONS;
   for (int i = 0; i < 8; i++)
@@ -21,7 +22,7 @@ void get_denominations(int amount, int *notes)
   }
 }
 
-unsigned int get_money(unsigned short int amount)
+cash get_money(short_cash amount)
 {
   int notes = 0x00000000;
   if (amount <= LIMIT_OF_AMOUNT)
@@ -30,3 +31,22 @@ unsigned int get_money(unsigned short int amount)
   }
   return notes;
 };
+
+void print_note(int notes_in_hex, short_cash note, int byte_no)
+{
+
+  int note_units = (notes_in_hex >> (byte_no * 4)) & 0x0f;
+  if (note_units)
+  {
+    printf("\t%2d notes of Rs %d\n", note_units, note);
+  }
+}
+
+void print_notes(int notes_in_hex)
+{
+  int denominations[] = DENOMINATIONS;
+  for (int i = 0; i < 8; i++)
+  {
+    print_note(notes_in_hex, denominations[i], 7 - i);
+  }
+}
